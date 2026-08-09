@@ -88,6 +88,7 @@ grep "register(" app/src/widgets/<name>/<name>.ts
 Should output exactly one line with the `register("<name>", create<Name>)` call.
 
 Confirm the new widget is discoverable at runtime:
+
 ```ts
 import { listWidgets } from "./src/widgets/index.js";
 // "<name>" should appear in the result

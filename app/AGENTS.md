@@ -40,4 +40,4 @@ entry point is `src/index.ts`.
 
 - `creating-widget` — use when adding a new widget to the library
 - `architecture-deep-dive` — use when explaining architecture or where to implement a feature
-- `analyzing-bundle-size` — use when checking or estimating bundle size impact
+- `analyzing-bundle-size` — use when checking the actual dist/bundle.js size or reading its file size

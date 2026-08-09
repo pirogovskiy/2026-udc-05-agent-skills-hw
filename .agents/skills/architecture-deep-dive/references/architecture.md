@@ -34,7 +34,7 @@ export function listWidgets(): string[]
 
 Each widget is a single folder containing exactly two files:
 
-```
+```text
 app/src/widgets/
   badge/
     badge.ts        ← factory function + register() call
@@ -75,7 +75,9 @@ import "./badge/badge.js";
 export { listWidgets, create } from "../core/registry.js";
 ```
 
-This file is the **only** place that imports widget modules. Importing a widget module causes its `register()` call to execute, making the widget available to `create()`. If a new widget is not imported here, `create("<name>", props)` will throw "Unknown widget".
+This file is the **only production/runtime orchestration point** that imports widget modules. Importing a widget module causes its `register()` call to execute, making the widget available to `create()`. If a new widget is not imported here, `create("<name>", props)` will throw "Unknown widget".
+
+**Exception for tests:** Colocated test files (e.g., `app/src/widgets/alert/alert.test.ts`) may import their widget module directly for unit testing the factory function in isolation — this does not conflict with the orchestration rule since tests run separately from the bundle.
 
 The file also re-exports `create` and `listWidgets` so consumers only need one import point.
 

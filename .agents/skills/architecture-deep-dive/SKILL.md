@@ -20,7 +20,7 @@ Open the reference file for the full deep dive. Key facts to front-load:
 - The registry lives in `app/src/core/registry.ts` — do **not** modify its public API
 - Every widget is a **pure function** in its own folder under `app/src/widgets/<name>/`
 - Widgets self-register at module load via `register()` — no central manifest needed
-- `app/src/widgets/index.ts` is the only place that imports widget modules (triggers registration)
+- `app/src/widgets/index.ts` is the sole production/runtime orchestration point that imports widget modules (triggers registration at bundle time). Tests may import their own widget module directly for unit testing.
 
 ## References
 
