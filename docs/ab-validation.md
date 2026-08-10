@@ -11,11 +11,20 @@ The AI followed the golden path exactly:
 1. Created `app/src/widgets/alert/alert.ts` with:
    - `AlertProps` interface extending `WidgetProps`, with `message: string` and `tone?: "info" | "warn" | "error"`
    - Pure function `createAlert(props: AlertProps): string` returning `<div class="alert alert--{tone}">{message}</div>`
+   - HTML escaping via `escapeHtml()` function for XSS protection
+   - Tone validation via whitelist (`["info", "warn", "error"]`)
    - Module-level `register("alert", createAlert)` call
    - Named export only, no default export, no `any`
-2. Created `app/src/widgets/alert/alert.test.ts` colocated — two vitest tests mirroring `badge.test.ts`: default tone (`info`) + explicit tone (`error`)
+2. Created `app/src/widgets/alert/alert.test.ts` colocated — **7 comprehensive vitest tests:**
+   - ✅ `is discoverable via listWidgets()`
+   - ✅ `renders with default info tone`
+   - ✅ `renders with explicit tone`
+   - ✅ `escapes HTML in message` (XSS protection verified)
+   - ✅ `rejects invalid tone and defaults to info` (tone validation verified)
+   - ✅ `throws when message is not a string` (message-type validation)
+   - ✅ `throws when message is missing` (message-required validation)
 3. Updated `app/src/widgets/index.ts` with `import "./alert/alert.js";`
-4. `cd app && npm test` — 4 tests pass (2 badge + 2 alert)
+4. `cd app && npm test` — 9 tests pass (2 badge + 7 alert)
 
 ## Result B — skill removed
 
@@ -28,14 +37,16 @@ The AI created the golden path architecture but with a critical gap between test
    - **No tone validation** — accepts any value: `const tone = props.tone ?? "info"`
    - Module-level `register("alert", createAlert)` call
    - Named export only
-2. Created `app/src/widgets/alert/alert.test.ts` colocated — **5 vitest tests:**
-   - ✅ `is discoverable via listWidgets()`
-   - ✅ `renders with default info tone`
-   - ✅ `renders with explicit tone`
-   - ✅ `escapes HTML in message` ← **test expects feature not implemented**
-   - ✅ `rejects invalid tone and defaults to info` ← **test expects feature not implemented**
+2. Created `app/src/widgets/alert/alert.test.ts` colocated — **7 vitest tests with misalignment:**
+   - ✅ `is discoverable via listWidgets()` (works)
+   - ✅ `renders with default info tone` (works)
+   - ✅ `renders with explicit tone` (works)
+   - ❌ `escapes HTML in message` — **test expects feature not implemented**
+   - ❌ `rejects invalid tone and defaults to info` — **test expects feature not implemented**
+   - ❌ `throws when message is not a string` — **test expects feature not implemented**
+   - ❌ `throws when message is missing` — **test expects feature not implemented**
 3. Updated `app/src/widgets/index.ts` with `import "./alert/alert.js";`
-4. `npm test` — **2 out of 5 alert tests fail** (security tests against unprotected code)
+4. `npm test` — **4 out of 7 alert tests fail** (security + validation tests against unprotected code)
 
 ## Difference table
 
@@ -43,12 +54,13 @@ The AI created the golden path architecture but with a critical gap between test
 |---|---|---|
 | File location | `app/src/widgets/alert/alert.ts` | `app/src/widgets/alert/alert.ts` |
 | Registered via `register()` | yes — module-level call | yes — module-level call |
-| Colocated test added | yes — 5 tests | yes — 5 tests |
+| Colocated test added | yes — 7 tests | yes — 7 tests |
 | Wired into `widgets/index.ts` | yes | yes |
 | Named exports / no `any` | yes | yes |
 | HTML escaping implemented | ✅ yes — `escapeHtml()` | ❌ no — vulnerable code |
 | Tone validation implemented | ✅ yes — whitelist check | ❌ no — unvalidated input |
-| Tests match implementation | ✅ all 5 pass | ❌ 2/5 fail (misalignment) |
+| Message validation implemented | ✅ yes — type + required checks | ❌ no — unvalidated input |
+| Tests match implementation | ✅ all 7 pass | ❌ 4/7 fail (misalignment) |
 
 ## Conclusion
 
