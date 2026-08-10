@@ -62,7 +62,7 @@ The AI created the golden path architecture but with a critical gap between test
 | HTML escaping implemented | ✅ yes — `escapeHtml()` | ❌ no — vulnerable code |
 | Tone validation implemented | ✅ yes — whitelist check | ❌ no — unvalidated input |
 | Message validation implemented | ✅ yes — type + required checks | ❌ no — unvalidated input |
-| Tests match implementation | ✅ all 7 pass | ❌ 4/7 fail (misalignment) |
+| Tests match implementation | ✅ all 8 pass | ❌ 5/8 fail (misalignment) |
 
 ## Conclusion
 
