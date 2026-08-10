@@ -46,7 +46,7 @@ The AI created the golden path architecture but with a critical gap between test
    - ❌ `throws when message is not a string` — **test expects feature not implemented**
    - ❌ `throws when message is missing` — **test expects feature not implemented**
 3. Updated `app/src/widgets/index.ts` with `import "./alert/alert.js";`
-4. `npm test` — **4 out of 7 alert tests fail** (security + validation tests against unprotected code)
+4. `cd app && npm test` — **4 out of 7 alert tests fail** (security + validation tests against unprotected code)
 
 ## Difference table
 
@@ -64,4 +64,4 @@ The AI created the golden path architecture but with a critical gap between test
 
 ## Conclusion
 
-**The skill prevented a dangerous quality gap.** Both runs correctly identified the architecture (file layout, registration, wiring). However, Result B exposed a critical flaw: it wrote comprehensive security tests (`escapeHtml`, `tone` validation) but did not implement the features being tested. Result A with the skill guidance ensured code and tests align. This is the skill's real value — not "architecture direction" but **quality alignment**: catching the gap between aspirational tests and vulnerable code that would pass review if not for explicit security guidance. Without the skill, untested security features slip through tests, waiting to become exploitable bugs.
+**The skill prevented a dangerous quality gap.** Both runs correctly identified the architecture (file layout, registration, wiring). However, Result B exposed a critical flaw: it wrote comprehensive security tests (`escapeHtml`, `tone` validation) but did not implement the features being tested — 4 of 7 alert tests failed because the implementation lacked HTML escaping and validation. Result A with the skill guidance ensured code and tests align. This is the skill's real value — not "architecture direction" but **quality alignment**: catching the gap between security requirements (verified by tests) and vulnerable code that lacked the necessary protections. Without the skill, security gaps discovered during testing remain as unimplemented vulnerabilities.
