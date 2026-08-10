@@ -26,4 +26,16 @@ describe("alert widget", () => {
     const result = create("alert", { message: "Test", tone: "invalid" as any });
     expect(result).toContain("alert--info");
   });
+
+  it("throws when message is not a string", () => {
+    expect(() => create("alert", { message: null as any })).toThrow(
+      "alert: message must be a string, got object",
+    );
+  });
+
+  it("throws when message is missing", () => {
+    expect(() => create("alert", {} as any)).toThrow(
+      "alert: message must be a string, got undefined",
+    );
+  });
 });

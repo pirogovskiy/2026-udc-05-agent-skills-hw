@@ -109,7 +109,7 @@ Widgets return HTML strings so they can be rendered in any context (server-side,
 1. **Forgot to add import to `widgets/index.ts`** — `create("<name>", props)` throws "Unknown widget". Fix: add `import "./<name>/<name>.js";` to `index.ts`.
 2. **Called `register()` inside the factory** — registers on every `create()` call, throws on second call. Fix: move `register()` to module level.
 3. **Used `default` export** — breaks named-import conventions. Fix: use `export function create<Name>`.
-4. **Used `any` in props** — TypeScript strict mode rejects. Fix: extend `WidgetProps` with a typed interface.
+4. **Used `any` in props** — The project's design rules prohibit explicit `any` in props (even if TypeScript's noImplicitAny allows it). Fix: extend `WidgetProps` with a typed interface instead.
 5. **Used `.ts` extension in import** — ESM requires `.js`. Fix: `import from "../../core/registry.js"`.
 
 ## Related

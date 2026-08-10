@@ -91,5 +91,6 @@ Confirm the new widget is discoverable at runtime:
 
 ```ts
 import { listWidgets } from "./src/widgets/index.js";
-// "<name>" should appear in the result
+console.log(listWidgets()); // Should include "<name>"
+// Example: ["badge", "alert", "<name>"]
 ```
