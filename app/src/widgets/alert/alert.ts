@@ -17,6 +17,9 @@ function escapeHtml(text: string): string {
 }
 
 export function createAlert(props: AlertProps): string {
+  if (props === null || typeof props !== "object") {
+    throw new Error("alert: props must be an object");
+  }
   if (typeof props.message !== "string") {
     throw new Error(`alert: message must be a string, got ${typeof props.message}`);
   }

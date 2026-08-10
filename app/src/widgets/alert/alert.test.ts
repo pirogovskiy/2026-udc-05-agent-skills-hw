@@ -27,8 +27,14 @@ describe("alert widget", () => {
     expect(result).toContain("alert--info");
   });
 
+  it("throws when props is null", () => {
+    expect(() => create("alert", null as any)).toThrow(
+      "alert: props must be an object",
+    );
+  });
+
   it("throws when message is not a string", () => {
-    expect(() => create("alert", { message: null as any })).toThrow(
+    expect(() => create("alert", { message: null } as any)).toThrow(
       "alert: message must be a string, got object",
     );
   });

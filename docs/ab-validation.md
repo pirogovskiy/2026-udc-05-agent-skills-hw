@@ -15,7 +15,7 @@ The AI followed the golden path exactly:
    - Tone validation via whitelist (`["info", "warn", "error"]`)
    - Module-level `register("alert", createAlert)` call
    - Named export only, no default export, no `any`
-2. Created `app/src/widgets/alert/alert.test.ts` colocated — **7 comprehensive vitest tests:**
+2. Created `app/src/widgets/alert/alert.test.ts` colocated — **8 comprehensive vitest tests:**
    - ✅ `is discoverable via listWidgets()`
    - ✅ `renders with default info tone`
    - ✅ `renders with explicit tone`
@@ -23,8 +23,9 @@ The AI followed the golden path exactly:
    - ✅ `rejects invalid tone and defaults to info` (tone validation verified)
    - ✅ `throws when message is not a string` (message-type validation)
    - ✅ `throws when message is missing` (message-required validation)
+   - ✅ `throws when props is null` (null-safety validated)
 3. Updated `app/src/widgets/index.ts` with `import "./alert/alert.js";`
-4. `cd app && npm test` — 9 tests pass (2 badge + 7 alert)
+4. `cd app && npm test` — 10 tests pass (2 badge + 8 alert)
 
 ## Result B — skill removed
 
@@ -37,7 +38,7 @@ The AI created the golden path architecture but with a critical gap between test
    - **No tone validation** — accepts any value: `const tone = props.tone ?? "info"`
    - Module-level `register("alert", createAlert)` call
    - Named export only
-2. Created `app/src/widgets/alert/alert.test.ts` colocated — **7 vitest tests with misalignment:**
+2. Created `app/src/widgets/alert/alert.test.ts` colocated — **8 vitest tests with misalignment:**
    - ✅ `is discoverable via listWidgets()` (works)
    - ✅ `renders with default info tone` (works)
    - ✅ `renders with explicit tone` (works)
@@ -45,8 +46,9 @@ The AI created the golden path architecture but with a critical gap between test
    - ❌ `rejects invalid tone and defaults to info` — **test expects feature not implemented**
    - ❌ `throws when message is not a string` — **test expects feature not implemented**
    - ❌ `throws when message is missing` — **test expects feature not implemented**
+   - ❌ `throws when props is null` — **test expects feature not implemented**
 3. Updated `app/src/widgets/index.ts` with `import "./alert/alert.js";`
-4. `cd app && npm test` — **4 out of 7 alert tests fail** (security + validation tests against unprotected code)
+4. `cd app && npm test` — **5 out of 8 alert tests fail** (security + validation tests against unprotected code)
 
 ## Difference table
 
@@ -54,7 +56,7 @@ The AI created the golden path architecture but with a critical gap between test
 |---|---|---|
 | File location | `app/src/widgets/alert/alert.ts` | `app/src/widgets/alert/alert.ts` |
 | Registered via `register()` | yes — module-level call | yes — module-level call |
-| Colocated test added | yes — 7 tests | yes — 7 tests |
+| Colocated test added | yes — 8 tests | yes — 8 tests |
 | Wired into `widgets/index.ts` | yes | yes |
 | Named exports / no `any` | yes | yes |
 | HTML escaping implemented | ✅ yes — `escapeHtml()` | ❌ no — vulnerable code |
@@ -64,4 +66,4 @@ The AI created the golden path architecture but with a critical gap between test
 
 ## Conclusion
 
-**The skill prevented a dangerous quality gap.** Both runs correctly identified the architecture (file layout, registration, wiring). However, Result B exposed a critical flaw: it wrote comprehensive security tests (`escapeHtml`, `tone` validation) but did not implement the features being tested — 4 of 7 alert tests failed because the implementation lacked HTML escaping and validation. Result A with the skill guidance ensured code and tests align. This is the skill's real value — not "architecture direction" but **quality alignment**: catching the gap between security requirements (verified by tests) and vulnerable code that lacked the necessary protections. Without the skill, security gaps discovered during testing remain as unimplemented vulnerabilities.
+**The skill prevented a dangerous quality gap.** Both runs correctly identified the architecture (file layout, registration, wiring). However, Result B exposed a critical flaw: it wrote comprehensive security tests (`escapeHtml`, `tone` validation, null safety) but did not implement the features being tested — 5 of 8 alert tests failed because the implementation lacked HTML escaping, validation, and null safety. Result A with the skill guidance ensured code and tests align. This is the skill's real value — not "architecture direction" but **quality alignment**: catching the gap between security requirements (verified by tests) and vulnerable code that lacked the necessary protections. Without the skill, security gaps discovered during testing remain as unimplemented vulnerabilities.
